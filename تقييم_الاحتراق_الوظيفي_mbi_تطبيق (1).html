@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>تقييم الاحتراق الوظيفي - MBI مبسّط</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep */
+      --card:#0b1220;
+      --muted:#9aa4b2;
+      --accent:#06b6d4;
+      --glass: rgba(255,255,255,0.04);
+      --success:#10b981;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+    }
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#081020 0%, #071521 100%);color:#e6eef6}
+    .container{max-width:920px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    h1{font-size:20px;margin:0}
+    p.lead{color:var(--muted);margin:2px 0 0 0;font-size:13px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    form .q{display:grid;grid-template-columns:1fr 220px;gap:12px;align-items:center;padding:12px 0;border-bottom:1px dashed rgba(255,255,255,0.02)}
+    form .q:last-child{border-bottom:0}
+    label.qtext{font-weight:600}
+    .radios{display:flex;gap:8px;justify-content:flex-start}
+    .radio{display:flex;flex-direction:column;align-items:center;min-width:36px}
+    .radio input{appearance:none;width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:var(--glass);display:inline-block}
+    .radio input:checked{background:linear-gradient(180deg,var(--accent), #0891b2);box-shadow:0 6px 14px rgba(6,182,212,0.14);border:1px solid rgba(6,182,212,0.9)}
+    .radio span{font-size:12px;color:var(--muted);margin-top:6px}
+    .actions{display:flex;gap:10px;justify-content:flex-start;margin-top:16px}
+    button{background:var(--accent);border:0;padding:10px 14px;border-radius:10px;color:#042027;font-weight:700;cursor:pointer}
+    button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+    .result{margin-top:18px;display:grid;grid-template-columns:1fr 320px;gap:18px}
+    .result-card{padding:14px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.03)}
+    .percentage{font-size:34px;font-weight:800}
+    .bar{height:12px;background:rgba(255,255,255,0.06);border-radius:999px;margin-top:10px;overflow:hidden}
+    .bar > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent), #34d399);border-radius:999px}
+    .level{font-weight:700;margin-top:10px}
+    .breakdown{font-size:13px;color:var(--muted);margin-top:8px}
+    .advice{margin-top:8px;line-height:1.5}
+    .answers{font-size:13px;color:var(--muted);margin-top:8px;padding:10px;background:rgba(255,255,255,0.01);border-radius:8px}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    @media (max-width:880px){.result{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>تقييم الاحتراق الوظيفي (MBI - نسخة مبسّطة)</h1>
+        <p class="lead">أخلِ إجابة كل عبارة من 1 إلى 5 (1 = أبداً، 5 = دائماً)، ثم اضغط حساب للحصول على النتيجة والتوصيات.</p>
+      </div>
+      <div style="text-align:left;">
+        <small style="color:var(--muted)">تمّ التصميم: تطبيق أمامي مستقل</small>
+      </div>
+    </header>
+
+    <section class="card">
+      <form id="mbiForm">
+        <!-- Questions (Arabic) -->
+        <div class="q">
+          <label class="qtext">1. أشعر أنني متعب جداً بسبب عملي.</label>
+          <div class="radios" data-q="1">
+            <label class="radio"><input type="radio" name="q1" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q1" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q1" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q1" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q1" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">2. أشعر أنني أستنزف طاقتي بسرعة أثناء ساعات العمل.</label>
+          <div class="radios" data-q="2">
+            <label class="radio"><input type="radio" name="q2" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q2" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q2" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q2" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q2" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">3. أشعر بصعوبة في بدء يوم العمل بسبب التعب أو الملل.</label>
+          <div class="radios" data-q="3">
+            <label class="radio"><input type="radio" name="q3" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q3" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q3" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q3" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q3" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">4. فقدتُ الحماس تجاه عملي مقارنةً بالسابق.</label>
+          <div class="radios" data-q="4">
+            <label class="radio"><input type="radio" name="q4" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q4" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q4" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q4" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q4" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">5. أشعر بعدم الاهتمام أو اللامبالاة تجاه مهامي.</label>
+          <div class="radios" data-q="5">
+            <label class="radio"><input type="radio" name="q5" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q5" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q5" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q5" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q5" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">6. أصبحتُ أكثر سلبية أو عصبية تجاه العمل أو الزملاء.</label>
+          <div class="radios" data-q="6">
+            <label class="radio"><input type="radio" name="q6" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q6" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q6" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q6" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q6" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">7. أشعر أن إنتاجيتي منخفضة.</label>
+          <div class="radios" data-q="7">
+            <label class="radio"><input type="radio" name="q7" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q7" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q7" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q7" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q7" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">8. أشعر أن مجهودي لا يقدَّر أو لا يعطي نتيجة.</label>
+          <div class="radios" data-q="8">
+            <label class="radio"><input type="radio" name="q8" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q8" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q8" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q8" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q8" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">9. أشعر أنني أقل كفاءة مما يجب في عملي.</label>
+          <div class="radios" data-q="9">
+            <label class="radio"><input type="radio" name="q9" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q9" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q9" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q9" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q9" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="q">
+          <label class="qtext">10. أشعر أن ضغوط العمل أكبر من قدرتي على التحمل.</label>
+          <div class="radios" data-q="10">
+            <label class="radio"><input type="radio" name="q10" value="1"><span>1</span></label>
+            <label class="radio"><input type="radio" name="q10" value="2"><span>2</span></label>
+            <label class="radio"><input type="radio" name="q10" value="3"><span>3</span></label>
+            <label class="radio"><input type="radio" name="q10" value="4"><span>4</span></label>
+            <label class="radio"><input type="radio" name="q10" value="5"><span>5</span></label>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="button" id="calcBtn">حساب النتيجة</button>
+          <button type="button" id="exportBtn" class="secondary">تحميل النتائج (CSV)</button>
+          <button type="button" id="resetBtn" class="secondary">إعادة تعيين</button>
+        </div>
+      </form>
+
+      <div id="resultArea" class="result" style="display:none">
+        <div class="result-card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div class="percentage" id="pct">0%</div>
+              <div class="level" id="levelText">مستوى: -</div>
+              <div class="breakdown" id="scoreBreakdown">مجموع: 0 / 50</div>
+            </div>
+            <div style="width:120px;text-align:center">
+              <div style="font-size:12px;color:var(--muted)">النتيجة البصرية</div>
+              <div class="bar"><i id="barFill"></i></div>
+            </div>
+          </div>
+
+          <div class="answers" id="rawAnswers">
+            إجاباتك: -
+          </div>
+        </div>
+
+        <div class="result-card">
+          <div style="font-weight:700">تحليل مُوجز وتوصيات</div>
+          <div class="advice" id="adviceArea">
+            لم تُجرَ الحسابات بعد.
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div>ملاحظة: هذا تقييم مبسّط معرفي ولا يغني عن استشارة مختص نفسي عند الحاجة.</div>
+      </footer>
+    </section>
+  </div>
+
+  <script>
+    const calcBtn = document.getElementById('calcBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const resultArea = document.getElementById('resultArea');
+    const pctEl = document.getElementById('pct');
+    const barFill = document.getElementById('barFill');
+    const levelText = document.getElementById('levelText');
+    const scoreBreakdown = document.getElementById('scoreBreakdown');
+    const rawAnswers = document.getElementById('rawAnswers');
+    const adviceArea = document.getElementById('adviceArea');
+
+    function readAnswers(){
+      const answers = [];
+      for(let i=1;i<=10;i++){
+        const v = document.querySelector('input[name="q'+i+'"]:checked');
+        answers.push(v? parseInt(v.value,10) : 0);
+      }
+      return answers;
+    }
+
+    function compute(answers){
+      const total = answers.reduce((a,b)=>a+b,0);
+      const pct = Math.round((total/50)*100);
+      return {total,pct};
+    }
+
+    function levelFromPct(pct){
+      if(pct <= 33) return {level:'منخفض', color:'var(--success)', adviceKey: 'low'};
+      if(pct <= 66) return {level:'متوسط', color:'var(--warn)', adviceKey: 'mid'};
+      return {level:'مرتفع', color:'var(--danger)', adviceKey: 'high'};
+    }
+
+    const advices = {
+      low: `مستوى منخفض من علامات الاحتراق. استمر في ممارسات الراحة والحفاظ على توازن العمل والحياة. راجع روتين النوم ونشاطات الاسترخاء.`,
+      mid: `مستوى متوسط. يوجد مؤشرات على إرهاق وتبلد جزئي. أنصح بتطبيق استراتيجيات إدارة وقت واعادة ترتيب الأولويات، وطلب ملاحظات دورية من الإدارة، وأخذ استراحة قصيرة خلال اليوم.`,
+      high: `مستوى مرتفع. يُنصح باتخاذ إجراءات فورية: استشارة مختص نفساني إن أمكن، التحدث مع الإدارة حول تخفيف الأحمال، وأخذ راحة/اجازة قصيرة لإعادة الشحن.`
+    };
+
+    function domainAnalysis(answers){
+      // domains: 1-3 exhaustion, 4-6 depersonalization, 7-9 reduced accomplishment, 10 general stress
+      const ex = answers.slice(0,3).reduce((a,b)=>a+b,0);
+      const dep = answers.slice(3,6).reduce((a,b)=>a+b,0);
+      const accom = answers.slice(6,9).reduce((a,b)=>a+b,0);
+      const gen = answers[9];
+      return {ex,dep,accom,gen};
+    }
+
+    function adviceDetailed(answers){
+      const dom = domainAnalysis(answers);
+      const parts = [];
+      parts.push(`<strong>ملخص حسب المحاور:</strong>`);
+      parts.push(`• الإرهاق (الأسئلة 1-3): ${dom.ex} / 15`);
+      parts.push(`• التبلّد / الفقدان الحماسي (4-6): ${dom.dep} / 15`);
+      parts.push(`• الإحساس بقلة الإنجاز (7-9): ${dom.accom} / 15`);
+      parts.push(`• الضغط العام (10): ${dom.gen} / 5`);
+
+      const {pct} = compute(answers);
+      const lvl = levelFromPct(pct);
+      parts.push(`<br><strong>توصيات عامة:</strong> ${advices[lvl.adviceKey]}`);
+
+      // Add tactical tips per domain
+      if(dom.ex >= 8){
+        parts.push(`<br><strong>نصيحة للإرهاق:</strong> ضبط نوم منتظم، استراحات قصيرة كل 60-90 دقيقة، تقليل العمل المتواصل، وممارسة نشاط بدني خفيف.`);
+      }
+      if(dom.dep >= 8){
+        parts.push(`<br><strong>نصيحة للتبلّد:</strong> ابحث عن مهام تمنحك شعوراً بالإنجاز الصغيرة، اطلب تنويع المهام، وتواصل مع زملاءك لتجديد الحافز.`);
+      }
+      if(dom.accom >= 8){
+        parts.push(`<br><strong>نصيحة لقلة الإنجاز:</strong> توثيق الإنجازات أسبوعياً، طلب ملاحظات واضحة من المشرف، وتقسيم المهام الكبيرة إلى أجزاء صغيرة.`);
+      }
+      if(dom.gen >= 4){
+        parts.push(`<br><strong>نصيحة للضغط العام:</strong> تحدث مع مسؤولك المباشر، ضع حدود واضحة لساعات العمل، وفكّر في استشارة مختص عند استمرار الضغط.`);
+      }
+
+      return parts.join('<br>');
+    }
+
+    calcBtn.addEventListener('click',()=>{
+      const answers = readAnswers();
+      // validation
+      const missing = answers.some(v=>v===0);
+      if(missing){
+        if(!confirm('بعض الأسئلة لم تُجب. هل تحب المتابعة مع افتراض قيم 0 للأسئلة الغير مجابة؟')) return;
+      }
+      const {total,pct} = compute(answers);
+      const lvl = levelFromPct(pct);
+
+      resultArea.style.display = 'grid';
+      pctEl.textContent = pct + '%';
+      barFill.style.width = pct + '%';
+      levelText.textContent = 'المستوى: ' + lvl.level;
+      levelText.style.color = lvl.color;
+      scoreBreakdown.textContent = `مجموع النقاط: ${total} / 50`;
+      rawAnswers.innerHTML = 'إجاباتك: ' + answers.map((v,i)=>`(${i+1}: ${v})`).join(' , ');
+      adviceArea.innerHTML = adviceDetailed(answers);
+
+      // smooth animation bar
+      barFill.style.transition = 'width 800ms ease';
+
+      // focus result
+      window.scrollTo({top: resultArea.offsetTop - 20, behavior:'smooth'});
+    });
+
+    resetBtn.addEventListener('click',()=>{
+      document.getElementById('mbiForm').reset();
+      resultArea.style.display = 'none';
+      barFill.style.width = '0%';
+    });
+
+    exportBtn.addEventListener('click',()=>{
+      const answers = readAnswers();
+      const {total,pct} = compute(answers);
+      const lvl = levelFromPct(pct);
+      const now = new Date().toISOString();
+      const rows = [];
+      rows.push(['timestamp','question','answer'].join(','));
+      answers.forEach((a,i)=>rows.push([now, `q${i+1}`, a].join(',')));
+      rows.push(['total','', total].join(','));
+      rows.push(['percentage','', pct].join(','));
+      rows.push(['level','', lvl.level].join(','));
+      const csv = rows.join('\n');
+      const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'MBI_results.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  </script>
+<script>
+function downloadCSV(result) {
+  const rows = [
+    ["البند", "القيمة"],
+    ["التاريخ", new Date().toLocaleString("ar-EG")],
+    ["إجمالي النقاط", result.total],
+    ["النسبة المئوية", result.percentage + "%"],
+    ["المستوى", result.level],
+    [],
+    ["السؤال", "الإجابة (1-5)"],
+    ...result.answers.map((a, i) => ["السؤال " + (i+1), a])
+  ];
+
+  let csv = rows.map(r => r.join(",")).join("
+");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "burnout_result.csv";
+  link.click();
+}
+</script>
+</body>
+</html>
